@@ -1,0 +1,5 @@
+
+# ~/.config/ruff/ruff.toml
+[lint]
+select = ["ALL"]
+ignore = ["E501", "D101", "UP007", "INP001", "D100"]

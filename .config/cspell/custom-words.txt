@@ -1,0 +1,16 @@
+Exfiltration
+Neotree
+abatch
+deberta
+deepkeep
+everart
+gdrive
+gliner
+huggingface
+huggingface_hub
+keymap
+modelcontextprotocol
+nvim
+osher
+text_embedder_name
+whitebox

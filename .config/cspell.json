@@ -1,0 +1,12 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "dictionaryDefinitions": [
+    {
+      "name": "custom-words",
+      "path": "~/.config/cspell/custom-words.txt",
+      "addWords": true
+    }
+  ],
+  "dictionaries": ["custom-words"]
+}
