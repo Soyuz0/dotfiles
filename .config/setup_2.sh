@@ -4,35 +4,46 @@ set -euo pipefail
 # Detect OS
 OS="$(uname -s)"
 case "$OS" in
-    Linux*)
-        PACKAGE_MANAGER="apt"
-        INSTALL_CMD="sudo apt install -y"
-        UPDATE_CMD="sudo apt update"
-        ;;
-    Darwin*)
-        PACKAGE_MANAGER="brew"
-        INSTALL_CMD="brew install"
-        UPDATE_CMD="brew update"
-        ;;
-    *)
-        echo "Unsupported OS: $OS"
-        exit 1
-        ;;
+Linux*)
+    PACKAGE_MANAGER="apt"
+    INSTALL_CMD="sudo apt install -y"
+    UPDATE_CMD="sudo apt update"
+    ;;
+Darwin*)
+    PACKAGE_MANAGER="brew"
+    INSTALL_CMD="brew install"
+    UPDATE_CMD="brew update"
+    ;;
+*)
+    echo "Unsupported OS: $OS"
+    exit 1
+    ;;
 esac
 
 # Update package list
 $UPDATE_CMD
 
 # Install dependencies
-$INSTALL_CMD make gcc ripgrep unzip git xclip tmux neovim zsh fzf stow
+$INSTALL_CMD make ripgrep unzip git xclip tmux neovim zsh fzf stow
 
 # Handle Python and Node installation
 if [ "$PACKAGE_MANAGER" = "apt" ]; then
     sudo add-apt-repository ppa:neovim-ppa/unstable -y || true
     sudo apt update
-    sudo apt install -y python3.10-venv npm
+    sudo apt install -y python3.10-venv npm gcc
 elif [ "$PACKAGE_MANAGER" = "brew" ]; then
-    brew install python@3.10 node
+    # Check for Xcode Command Line Tools
+    if ! xcode-select -p &>/dev/null; then
+        echo "Installing Xcode Command Line Tools..."
+        xcode-select --install
+
+        echo "Waiting for Xcode Command Line Tools to be installed..."
+        until xcode-select -p &>/dev/null; do sleep 5; done
+    fi
+
+    echo "Xcode Command Line Tools detected at $(xcode-select -p)"
+
+    brew install python@3.10 node gcc
 fi
 
 # Clone TPM if not exists
@@ -66,7 +77,6 @@ if [ "$SHELL" != "$(which zsh)" ]; then
 else
     echo "Zsh is already the default shell."
 fi
-
 
 # Start a new zsh shell and source the dotfiles zshrc
 ZDOT="$DOTFILES_DIR/.zshrc"
