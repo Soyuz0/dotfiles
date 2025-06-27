@@ -67,7 +67,6 @@ eval "$(fzf --zsh)" # C-R for fzf history search
 
 # alias
 alias la='ls -la'
-alias vi='nvim'
 alias vim='nvim'
 alias c='clear'
 
