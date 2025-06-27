@@ -905,7 +905,14 @@ require('lazy').setup({
       require('mini.surround').setup()
       require('mini.icons').setup()
       require('mini.files').setup()
-      vim.keymap.set('n', '<leader>f', require('mini.files').open, { desc = 'Mini [F]iles' })
+      vim.keymap.set('n', '<leader>f', function()
+        local buf_path = vim.api.nvim_buf_get_name(0)
+        if buf_path ~= '' then
+          require('mini.files').open(vim.fn.fnamemodify(buf_path, ':p:h'))
+        else
+          require('mini.files').open()
+        end
+      end, { desc = 'Mini [F]iles at current file' })
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
