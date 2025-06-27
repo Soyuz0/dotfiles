@@ -64,3 +64,10 @@ eval "$(fzf --zsh)" # C-R for fzf history search
 
 # loacl zshrc
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
+
+# alias
+alias la='ls -la'
+alias vi='nvim'
+alias vim='nvim'
+alias c='clear'
+
