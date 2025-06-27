@@ -61,6 +61,7 @@ alias ls='ls --color'
 
 # Shell integrations
 eval "$(fzf --zsh)" # C-R for fzf history search
+eval "$(zoxide init zsh)"
 
 # loacl zshrc
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
@@ -69,4 +70,5 @@ eval "$(fzf --zsh)" # C-R for fzf history search
 alias la='ls -la'
 alias vim='nvim'
 alias c='clear'
-
+alias cd='z'
+alias cdf='zf'
