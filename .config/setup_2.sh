@@ -54,3 +54,24 @@ fi
 # Stow configuration
 cd "$DOTFILES_DIR"
 stow .
+
+# Set zsh as default shell if not already
+if [ "$SHELL" != "$(which zsh)" ]; then
+    ZSH_PATH="$(which zsh)"
+    if ! grep -q "$ZSH_PATH" /etc/shells; then
+        echo "$ZSH_PATH" | sudo tee -a /etc/shells
+    fi
+    chsh -s "$ZSH_PATH"
+    echo "Zsh set as default shell. You may need to log out and log in again."
+else
+    echo "Zsh is already the default shell."
+fi
+
+
+# Start a new zsh shell and source the dotfiles zshrc
+ZDOT="$DOTFILES_DIR/.zshrc"
+if [ -f "$ZDOT" ]; then
+    exec zsh -c "source $ZDOT; exec zsh"
+else
+    echo "Dotfiles .zshrc not found at $ZDOT"
+fi
