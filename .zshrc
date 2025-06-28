@@ -72,3 +72,7 @@ alias vim='nvim'
 alias c='clear'
 alias cd='z'
 alias cdf='zf'
+
+# Change cursor color
+autoload -Uz colors && colors
+echo -ne "\e]12;#b39ddb\a"  # Dusty Violet
