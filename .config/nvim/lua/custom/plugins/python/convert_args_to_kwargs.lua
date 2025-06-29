@@ -24,6 +24,14 @@ local function find_parent_call_node(node)
 end
 
 local function convert_args_to_kwargs()
+  -- Save original cursor
+  local original_pos = vim.api.nvim_win_get_cursor(0)
+
+  -- Move to end of line
+  local row = original_pos[1]
+  local last_col = #vim.api.nvim_get_current_line()
+  vim.api.nvim_win_set_cursor(0, { row, last_col })
+
   local node = node_at_cursor_fallback()
   if not node then
     print 'Cursor not on a Treesitter node.'
@@ -101,8 +109,30 @@ local function convert_args_to_kwargs()
   local start_row, start_col, end_row, end_col = call_node:range()
   local new_call = string.format('%s(%s)', func_name, table.concat(new_args, ', '))
   vim.api.nvim_buf_set_text(0, start_row, start_col, end_row, end_col, { new_call })
+  -- Restore original cursor
+  vim.api.nvim_win_set_cursor(0, original_pos)
+end
+
+local function convert_all_calls_to_kwargs()
+  local buffer = vim.api.nvim_get_current_buf()
+  local root = get_root(buffer)
+
+  local function walk(node)
+    if node:type() == 'call' then
+      vim.api.nvim_win_set_cursor(0, { node:start() + 1, 0 })
+      convert_args_to_kwargs()
+    end
+    for child in node:iter_children() do
+      walk(child)
+    end
+  end
+
+  walk(root)
 end
 
 vim.api.nvim_create_user_command('ConvertArgsToKwargs', convert_args_to_kwargs, {})
 vim.keymap.set('n', '<leader>ca', ':ConvertArgsToKwargs<CR>', { noremap = true, silent = true })
+
+vim.api.nvim_create_user_command('ConvertAllArgsToKwargs', convert_all_calls_to_kwargs, {})
+vim.keymap.set('n', '<leader>cA', ':ConvertAllArgsToKwargs<CR>', { noremap = true, silent = true })
 return {}
