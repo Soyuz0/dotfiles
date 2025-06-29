@@ -69,22 +69,49 @@ local function convert_args_to_kwargs()
     end
   end
 
+  local is_star = function(p)
+    p = vim.trim(p)
+    return p:match '^%*[^*]' ~= nil
+  end
+
+  local is_star_star = function(p)
+    p = vim.trim(p)
+    return p:match '^%*%*' ~= nil
+  end
+
+  local star = false
+  local star_star = false
+
   for _, line in ipairs(vim.api.nvim_buf_get_lines(0, 0, -1, false)) do
     local params = line:match('def%s+' .. func_name .. '%s*%(([^)]*)%)')
     if params then
-      if params:find '%*' then
-        print 'Function uses *args or **kwargs, skipping.'
+      for _, param in ipairs(vim.fn.split(params, ',')) do
+        if is_star(param) then
+          star = true
+        elseif is_star_star(param) then
+          star_star = true
+        end
+      end
+
+      if star and star_star then
+        print 'Function uses *args and **kwargs, skipping.'
+        return
+      elseif star then
+        print 'Function uses *args, skipping.'
         return
       end
+
+      -- parse only normal names now
       for _, param in ipairs(vim.fn.split(params, ',')) do
         local name = vim.trim(param:match '([%w_]+)')
         if name then
           table.insert(param_names, name)
         end
       end
+
       break
     end
-  end
+    end
 
   local new_args = {}
   local param_i = 1
