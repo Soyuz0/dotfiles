@@ -24,7 +24,7 @@ esac
 $UPDATE_CMD
 
 # Install dependencies
-$INSTALL_CMD make ripgrep unzip git xclip tmux neovim zsh fzf stow zxoide
+$INSTALL_CMD make ripgrep unzip git xclip tmux neovim zsh fzf stow zoxide
 
 # Handle Python and Node installation
 if [ "$PACKAGE_MANAGER" = "apt" ]; then
