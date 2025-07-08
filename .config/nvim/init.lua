@@ -239,6 +239,12 @@ vim.api.nvim_create_autocmd('VimLeavePre', {
     end
   end,
 })
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "qf",
+  callback = function()
+    vim.keymap.set("n", "<C-y>", "<CR>", { buffer = true, silent = true })
+  end,
+})
 
 ---@type vim.Option
 local rtp = vim.opt.rtp
