@@ -36,7 +36,7 @@ return {
       formatting.shfmt.with { args = { '-i', '4' } },
       formatting.terraform_fmt,
       require('none-ls.formatting.ruff').with { extra_args = { '--extend-select', 'I' } },
-      -- require 'none-ls.formatting.ruff_format',
+      require 'none-ls.formatting.ruff_format',
     }
     table.insert(
       sources,

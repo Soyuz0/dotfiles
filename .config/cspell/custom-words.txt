@@ -1,8 +1,10 @@
+Exfiltration
+Neotree
 abatch
+ainvoke
 deberta
 deepkeep
 everart
-Exfiltration
 gdrive
 gliner
 huggingface
@@ -11,7 +13,6 @@ keymap
 kwarg
 kwargs
 modelcontextprotocol
-Neotree
 nvim
 osher
 text_embedder_name

@@ -60,4 +60,29 @@ vim.keymap.set('n', '<C-]>', '<Nop>', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-[>', '<Nop>', { noremap = true, silent = true })
 vim.keymap.set('n', 'N', 'Nzzzv', { noremap = true, silent = true })
 vim.keymap.set('n', 'G', 'Gzz', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>w', ':wa<CR>', { desc = 'Write all buffers' })
+
+local function setup_python_folds()
+  vim.opt_local.foldmethod = 'indent'
+  vim.opt_local.foldlevel = 99
+  vim.opt_local.foldenable = true
+end
+
+-- Trigger when a Python file is opened normally
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'python',
+  callback = function()
+    setup_python_folds()
+  end,
+})
+
+-- Trigger if you launch nvim without a file, then open one later with :e
+vim.api.nvim_create_autocmd('BufEnter', {
+  pattern = '*.py',
+  callback = function()
+    if vim.bo.filetype == 'python' then
+      setup_python_folds()
+    end
+  end,
+})
 return {}

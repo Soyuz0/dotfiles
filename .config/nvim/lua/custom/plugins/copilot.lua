@@ -8,12 +8,14 @@ return {
           vim.g.copilot_no_tab_map = true -- must go here, before plugin loads
         end,
         config = function()
+          vim.defer_fn(function()
+            vim.cmd 'Copilot setup'
+          end, 100)
           vim.keymap.set('i', '<C-J>', 'copilot#Accept("\\<CR>")', {
             expr = true,
             replace_keycodes = false,
             desc = 'Copilot Accept',
           })
-          -- override Tab to insert literal Tab
           vim.keymap.set('i', '<Tab>', '<Tab>', {
             noremap = true,
             silent = true,
