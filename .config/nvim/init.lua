@@ -229,7 +229,16 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
     error('Error cloning lazy.nvim:\n' .. out)
   end
 end
-
+-- logs time spent per client during shutdown
+vim.api.nvim_create_autocmd('VimLeavePre', {
+  callback = function()
+    for _, client in ipairs(vim.lsp.get_active_clients()) do
+      if client.name == 'pyright' then
+        client.stop(false) -- non-blocking stop
+      end
+    end
+  end,
+})
 
 ---@type vim.Option
 local rtp = vim.opt.rtp
