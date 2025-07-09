@@ -85,4 +85,32 @@ vim.api.nvim_create_autocmd('BufEnter', {
     end
   end,
 })
+--- copy the absolute file path to the clipboard
+vim.keymap.set('n', '<leader>cp', function()
+  vim.fn.setreg('+', vim.fn.expand '%:p')
+end, { desc = 'Copy absolute file path' })
+
+-- copy the current line's diagnostic message to the clipboard
+vim.keymap.set('n', '<leader>dy', function()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local cur_pos = vim.api.nvim_win_get_cursor(0)
+  local line_nr = cur_pos[1] - 1
+  local line_text = vim.api.nvim_buf_get_lines(bufnr, line_nr, line_nr + 1, false)[1] or ''
+  local diags = vim.diagnostic.get(bufnr, { lnum = line_nr })
+
+  local msgs = { line_text }
+  for _, d in ipairs(diags) do
+    table.insert(msgs, string.format("[%s] %s", vim.diagnostic.severity[d.severity], d.message))
+  end
+
+  local text = table.concat(msgs, "\n")
+  vim.fn.setreg("+", text)
+
+  if #diags == 0 then
+    vim.notify("No diagnostics on this line. Line text copied.", vim.log.levels.INFO)
+  else
+    vim.notify("Line and diagnostics copied to clipboard", vim.log.levels.INFO)
+  end
+end, { desc = 'Copy current line diagnostics' })
+
 return {}
