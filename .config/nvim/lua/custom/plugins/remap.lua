@@ -100,17 +100,17 @@ vim.keymap.set('n', '<leader>dy', function()
 
   local msgs = { line_text }
   for _, d in ipairs(diags) do
-    table.insert(msgs, string.format("[%s] %s", vim.diagnostic.severity[d.severity], d.message))
+    table.insert(msgs, string.format('[%s] %s', vim.diagnostic.severity[d.severity], d.message))
   end
 
-  local text = table.concat(msgs, "\n")
-  vim.fn.setreg("+", text)
+  local text = table.concat(msgs, '\n')
+  vim.fn.setreg('+', text)
 
   if #diags == 0 then
-    vim.notify("No diagnostics on this line. Line text copied.", vim.log.levels.INFO)
+    vim.notify('No diagnostics on this line. Line text copied.', vim.log.levels.INFO)
   else
-    vim.notify("Line and diagnostics copied to clipboard", vim.log.levels.INFO)
+    vim.notify('Line and diagnostics copied to clipboard', vim.log.levels.INFO)
   end
 end, { desc = 'Copy current line diagnostics' })
 
-return {}
+return { 'ThePrimeagen/vim-be-good' }
