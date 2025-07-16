@@ -72,6 +72,7 @@ alias vim='nvim'
 alias c='clear'
 alias cd='z'
 alias cdf='zf'
+alias ff='aerospace list-windows --all | fzf --bind '\''enter:execute(bash -c "aerospace focus --window-id {1}")+abort'\'''
 
 # Change cursor color
 autoload -Uz colors && colors
