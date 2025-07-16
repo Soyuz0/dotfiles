@@ -44,6 +44,7 @@ elif [ "$PACKAGE_MANAGER" = "brew" ]; then
     echo "Xcode Command Line Tools detected at $(xcode-select -p)"
 
     brew install python@3.10 node gcc
+    brew install --cask nikitabobko/tap/aerospace
 fi
 
 # Clone TPM if not exists
