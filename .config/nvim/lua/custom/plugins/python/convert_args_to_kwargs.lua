@@ -111,7 +111,7 @@ local function convert_args_to_kwargs()
 
       break
     end
-    end
+  end
 
   local new_args = {}
   local param_i = 1

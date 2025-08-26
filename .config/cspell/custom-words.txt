@@ -15,8 +15,11 @@ huggingface_hub
 keymap
 kwarg
 kwargs
+llms
 modelcontextprotocol
 nvim
 osher
+substring
 text_embedder_name
 whitebox
+yossi

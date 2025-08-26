@@ -439,6 +439,8 @@ require('lazy').setup({
         },
       }
 
+      require('grep_replace').setup { close_buffers = false } -- ← your module, not a plugin
+
       -- Enable Telescope extensions if they are installed
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
@@ -464,6 +466,8 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>si', builtin.git_files, { desc = '[S]earch Git Files' })
       vim.keymap.set('n', '<leader>sp', builtin.pickers, { desc = '[S]earch [P]ickers' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+
+      vim.keymap.set('n', '<leader>se', '<cmd>GrepReplace<cr>', { desc = '[S]earch [R]eplace' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
