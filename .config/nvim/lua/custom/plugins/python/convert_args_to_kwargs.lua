@@ -51,7 +51,33 @@ local function convert_args_to_kwargs()
     return
   end
 
-  local func_name = vim.treesitter.get_node_text(func_node, 0)
+  local function get_lsp_definition_location()
+    local params = vim.lsp.util.make_position_params()
+    vim.lsp.buf_request(0, 'textDocument/definition', params, function(err, result)
+      if err or not result or vim.tbl_isempty(result) then
+        print 'Could not find function definition via LSP'
+        return
+      end
+
+      local def = result[1]
+      local uri = def.uri or def.targetUri
+      local range = def.range or def.targetSelectionRange
+      local filename = vim.uri_to_fname(uri)
+
+      vim.fn.bufload(filename)
+      local bufnr = vim.fn.bufnr(filename)
+      local start_line = range.start.line
+      local line = vim.api.nvim_buf_get_lines(bufnr, start_line, start_line + 1, false)[1]
+      print('Definition line: ', line)
+    end)
+  end
+  print(get_lsp_definition_location())
+  local full_func_name = vim.treesitter.get_node_text(func_node, 0)
+  -- get the actual function name, in case of object.method calls
+  if full_func_name:match '%.%w+$' then
+    func_name = full_func_name:match '%.(%w+)$'
+  end
+
   local param_names = {}
   local args = {}
   local skip_indices = {}
@@ -81,7 +107,6 @@ local function convert_args_to_kwargs()
 
   local star = false
   local star_star = false
-
   for _, line in ipairs(vim.api.nvim_buf_get_lines(0, 0, -1, false)) do
     local params = line:match('def%s+' .. func_name .. '%s*%(([^)]*)%)')
     if params then
@@ -104,14 +129,14 @@ local function convert_args_to_kwargs()
       -- parse only normal names now
       for _, param in ipairs(vim.fn.split(params, ',')) do
         local name = vim.trim(param:match '([%w_]+)')
-        if name then
+        if name and name ~= 'self' and name ~= 'cls' then
           table.insert(param_names, name)
         end
       end
 
       break
     end
-    end
+  end
 
   local new_args = {}
   local param_i = 1
@@ -134,7 +159,7 @@ local function convert_args_to_kwargs()
   end
 
   local start_row, start_col, end_row, end_col = call_node:range()
-  local new_call = string.format('%s(%s)', func_name, table.concat(new_args, ', '))
+  local new_call = string.format('%s(%s)', full_func_name, table.concat(new_args, ', '))
   vim.api.nvim_buf_set_text(0, start_row, start_col, end_row, end_col, { new_call })
   -- Restore original cursor
   vim.api.nvim_win_set_cursor(0, original_pos)
