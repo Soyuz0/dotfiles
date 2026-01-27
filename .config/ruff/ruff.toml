@@ -1,5 +1,20 @@
 
 # ~/.config/ruff/ruff.toml
+line-length = 120 
 [lint]
 select = ["ALL"]
-ignore = ["E501", "D101", "UP007", "INP001", "D100", "FA100", "TRY003", "TC003", "UP045", "EM101"]
+ignore = [
+	"E501", # Checks for lines that exceed the specified maximum character length.
+	"D101", # Checks for undocumented public class definitions.
+	"UP007", # Check for type annotations that can be rewritten based on PEP 604 syntax. - e.g., "Union[int, str]" can be rewritten as "int | str".
+	"INP001", # Checks for packages that are missing an __init__.py file.
+	"D100", # Checks for undocumented public module definitions. file level docstring
+	"FA100",  # Checks for missing from __future__ import annotations imports upon detecting type annotations that can be written more succinctly under PEP 563.
+	"TRY003", # Checks for long exception messages that are not defined in the exception class itself. 
+	"TC003", # Checks for standard library imports that are only used for type annotations, but aren't defined in a type-checking block.
+	"UP045", # Check for typing.Optional annotations that can be rewritten based on PEP 604 syntax. e.g., "Optional[int]" can be rewritten as "int | None".
+	"EM101", # Checks for the use of string literals in exception constructors. e.g., ValueError("error message") not msg = "error message"; ValueError(msg)
+	"D107", # Checks for public __init__ method definitions that are missing docstrings.
+	"S101", # Checks for use of assert statements.
+]
+
