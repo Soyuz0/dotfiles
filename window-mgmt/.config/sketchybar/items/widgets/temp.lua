@@ -19,7 +19,7 @@ local temp = sbar.add("item", "widgets.temp", {
         },
         color = colors.white
     },
-    update_freq = 5,
+    update_freq = 1,
     padding_left = 6,
     padding_right = 6
 })
@@ -48,14 +48,14 @@ temp:subscribe({"routine", "forced", "system_woke"}, function(env)
 end)
 
 temp:subscribe("mouse.clicked", function(env)
-    sbar.exec("open -a 'Activity Monitor'")
+    sbar.exec("osascript -e 'tell application \"System Events\" to tell process \"TG Pro\" to click menu bar item 1 of menu bar 2'")
 end)
 
 -- Background around the temp item
 sbar.add("bracket", "widgets.temp.bracket", { temp.name }, {
     background = {
         color = colors.bg1,
-        border_color = colors.rainbow[#colors.rainbow - 3],
+        border_color = colors.rainbow[#colors.rainbow - 1],
         border_width = 1
     }
 })

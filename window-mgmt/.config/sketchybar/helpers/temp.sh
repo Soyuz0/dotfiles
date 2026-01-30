@@ -1,5 +1,8 @@
 #!/bin/bash
-# Get CPU temp on Apple Silicon using temp_sensor
-# Extracts PMGR SOC Die Temp Sensor0 (index 18 in the sensor list)
-DIR="$(dirname "$0")"
-"$DIR/temp_sensor" 2>/dev/null | tail -1 | cut -d',' -f18 | tr -d ' '
+# Get CPU temp from TG Pro menu bar
+osascript -e '
+tell application "System Events"
+    tell process "TG Pro"
+        return help of menu bar item 1 of menu bar 2
+    end tell
+end tell' 2>/dev/null | grep -i "CPU" | head -1 | grep -oE '[0-9]+°C' | grep -oE '[0-9]+'
