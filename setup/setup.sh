@@ -115,11 +115,9 @@ if [ "$OS" = "Darwin" ]; then
     $INSTALL_CMD thefuck
     $INSTALL_CMD htop
     
-    # Fonts - Note: homebrew/cask-fonts is deprecated
-    # Install via direct download or use alternative method
+    # Fonts for SketchyBar
     echo "Installing fonts..."
-    # SF Mono and SF Pro are included with Xcode Command Line Tools
-    # Installing via manual download is more reliable than casks
+    brew install --cask font-hack-nerd-font
     
     # SketchyBar app font
     echo "Downloading SketchyBar app font..."

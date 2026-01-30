@@ -1,2 +1,0 @@
--- Helper utilities for sketchybar
--- Add helper functions here as needed
