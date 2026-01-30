@@ -99,7 +99,9 @@ local function refresh_all()
                     },
                     icon = { highlight = sel },
                     background = {
-                        border_color = sel and colors.yellow or ws_color
+                        color = sel and colors.with_alpha(colors.yellow, 0.2) or settings.items.colors.background,
+                        border_color = sel and colors.yellow or ws_color,
+                        border_width = sel and 2 or 1
                     }
                 })
             end

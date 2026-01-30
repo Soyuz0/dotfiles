@@ -24,7 +24,10 @@ esac
 $UPDATE_CMD
 
 # Install core dependencies
-$INSTALL_CMD make ripgrep unzip git tmux neovim zsh fzf stow zoxide fd eza
+$INSTALL_CMD make ripgrep unzip git tmux neovim zsh fzf stow zoxide fd eza atuin fastfetch
+
+# Install OpenCode
+brew install anomalyco/tap/opencode || npm install -g opencode-ai
 
 # Install Oh-My-Zsh if not exists
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
