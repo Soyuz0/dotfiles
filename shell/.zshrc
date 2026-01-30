@@ -12,13 +12,21 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Plugins
-plugins=(git zoxide fzf)
+plugins=(git zoxide fzf vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
 export EDITOR='nvim'
 export MANPAGER='nvim +Man!'
+
+# Fix for Ghostty terminal - ensure tmux works properly
+if [[ "$TERM" == "xterm-ghostty" ]]; then
+  # If xterm-ghostty terminfo isn't available, fall back to xterm-256color
+  if ! infocmp xterm-ghostty &>/dev/null; then
+    export TERM=xterm-256color
+  fi
+fi
 
 # Add cargo bin to PATH (for grip-grab/gg and other rust tools)
 [[ -d "$HOME/.cargo/bin" ]] && export PATH="$HOME/.cargo/bin:$PATH"
