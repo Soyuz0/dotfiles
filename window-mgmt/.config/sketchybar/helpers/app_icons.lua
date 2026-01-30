@@ -1,4 +1,11 @@
 return {
+    -- Custom apps
+    ["Zen"] = ":firefox:",
+    ["Zen Browser"] = ":firefox:",
+    ["Ghostty"] = ":terminal:",
+    ["Beeper"] = ":messages:",
+    ["TextEdit"] = ":notes:",
+    
     ["Typora"] = ":text:",
     ["Orion"] = ":orion:",
     ["Orion RC"] = ":orion:",
