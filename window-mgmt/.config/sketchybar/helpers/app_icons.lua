@@ -70,6 +70,7 @@ return {
     ["Affinity Photo 2"] = ":affinity_photo_2:",
     ["Music"] = ":music:",
     ["音乐"] = ":music:",
+    ["Plexamp"] = ":music:",
     ["League of Legends"] = ":league_of_legends:",
     ["Tor Browser"] = ":tor_browser:",
     ["Hyper"] = ":hyper:",
@@ -224,6 +225,7 @@ return {
     ["Benji"] = ":bear:",
     ["Microsoft Outlook"] = ":microsoft_outlook:",
     ["ChatGPT"] = ":openai:",
+    ["Windows App"] = ":windows_app:",
     ["default"] = ":default:"
 }
   

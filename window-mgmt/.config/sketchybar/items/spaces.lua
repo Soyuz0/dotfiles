@@ -95,12 +95,17 @@ local function refresh_all()
                     drawing = has_apps or sel,
                     label = {
                         string = icon_line,
-                        highlight = sel
+                        highlight = false
                     },
-                    icon = { highlight = sel },
+                    icon = { 
+                        highlight = false,
+                        font = {
+                            style = sel and settings.font.style_map["Heavy"] or settings.font.style_map["Bold"]
+                        }
+                    },
                     background = {
-                        color = sel and settings.items.colors.background or colors.transparent,
-                        border_color = sel and colors.yellow or ws_color,
+                        color = sel and settings.items.colors.background or colors.with_alpha(settings.items.colors.background, 0.4),
+                        border_color = ws_color,
                         border_width = sel and 2 or 1
                     }
                 })
