@@ -3,16 +3,14 @@ local settings = require("settings")
 
 local front_app = sbar.add("item", "front_app", {
     display = "active",
+    drawing = false,
     icon = {
         drawing = false
     },
     label = {
-        font = {
-            style = settings.font.style_map["Bold"],
-            size = 13.0
-        }
+        drawing = false
     },
-    updates = true
+    updates = false
 })
 
 front_app:subscribe("front_app_switched", function(env)

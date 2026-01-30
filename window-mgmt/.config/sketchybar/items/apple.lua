@@ -5,11 +5,12 @@ local settings = require("settings")
 local apple = sbar.add("item", {
     icon = {
         font = {
-            size = 22.0
+            size = 20.0
         },
         string = settings.modes.main.icon,
         padding_right = 8,
         padding_left = 8,
+        color = 0xffe2e2e3,
         highlight_color = settings.modes.service.color
     },
     label = {
@@ -17,7 +18,7 @@ local apple = sbar.add("item", {
     },
     background = {
         color = settings.items.colors.background,
-        border_color = settings.modes.main.color,
+        border_color = 0xffe2e2e3,
         border_width = 1
     },
 

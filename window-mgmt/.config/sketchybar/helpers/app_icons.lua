@@ -1,11 +1,15 @@
 return {
     -- Custom apps
     ["Zen"] = ":firefox:",
+    ["zen"] = ":firefox:",
     ["Zen Browser"] = ":firefox:",
     ["Ghostty"] = ":terminal:",
+    ["ghostty"] = ":terminal:",
     ["Beeper"] = ":messages:",
+    ["Beeper Desktop"] = ":messages:",
     ["TextEdit"] = ":notes:",
-    ["Play"] = ":play:",
+    ["Play"] = ":tv:",
+    [" Play"] = ":tv:",
     
     ["Typora"] = ":text:",
     ["Orion"] = ":orion:",

@@ -1,17 +1,17 @@
 return {
     plus = "+",
-    loading = "",
-    apple = "",
-    rebel = "",
-    empire = "",
-    gear = "",
-    cpu = "",
-    nuke = "",
-    clipboard = "",
+    loading = "",
+    apple = "",
+    rebel = "",
+    empire = "",
+    gear = "",
+    cpu = "",
+    nuke = "󰚌",
+    clipboard = "",
 
     switch = {
-        on = "",
-        off = ""
+        on = "",
+        off = ""
     },
     volume = {
         _100 = "󰕾",
@@ -29,8 +29,8 @@ return {
         charging = "󰂄"
     },
     wifi = {
-        upload = "",
-        download = "",
+        upload = "",
+        download = "",
         connected = "󰤨",
         disconnected = "󰤭",
         router = "󰑩"
