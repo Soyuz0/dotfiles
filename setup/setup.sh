@@ -117,6 +117,7 @@ if [ "$OS" = "Darwin" ]; then
     $INSTALL_CMD nowplaying-cli
     $INSTALL_CMD thefuck
     $INSTALL_CMD htop
+    $INSTALL_CMD btop
     
     # Fonts for SketchyBar
     echo "Installing fonts..."
