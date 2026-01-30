@@ -8,8 +8,8 @@ return {
     ["Beeper"] = ":messages:",
     ["Beeper Desktop"] = ":messages:",
     ["TextEdit"] = ":notes:",
-    ["Play"] = ":tv:",
-    [" Play"] = ":tv:",
+    ["Play"] = ":play:",
+    [" Play"] = ":play:",
     
     ["Typora"] = ":text:",
     ["Orion"] = ":orion:",
