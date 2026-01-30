@@ -167,10 +167,14 @@ stow shell       # Symlinks: ~/.zshrc, ~/.p10k.zsh
 stow tools       # Symlinks: ~/.config/nvim, ~/.config/tmux, ~/.config/ghostty, etc.
 stow window-mgmt # Symlinks: ~/.aerospace.toml, ~/.config/sketchybar, ~/.config/borders
 
-# macOS: Build SketchyBar helpers after stow
+    # macOS: Build SketchyBar helpers after stow
 if [ "$OS" = "Darwin" ]; then
     echo "Building SketchyBar helper binaries..."
     (cd ~/.config/sketchybar/helpers && make) || true
+    
+    # Build temp sensor for Apple Silicon
+    echo "Building Apple Silicon temp sensor..."
+    clang -framework IOKit -framework Foundation ~/.config/sketchybar/helpers/temp_sensor.m -o ~/.config/sketchybar/helpers/temp_sensor || true
 fi
 
 echo "Setup complete!"

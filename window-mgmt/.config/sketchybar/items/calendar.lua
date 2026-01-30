@@ -57,3 +57,7 @@ cal:subscribe({"forced", "routine", "system_woke"}, function(env)
         label = os.date("%m/%d %H:%M")
     })
 end)
+
+cal:subscribe("mouse.clicked", function(env)
+    sbar.exec("open -a Calendar")
+end)
