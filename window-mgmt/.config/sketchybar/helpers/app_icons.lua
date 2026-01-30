@@ -5,7 +5,7 @@ return {
     ["Ghostty"] = ":terminal:",
     ["Beeper"] = ":messages:",
     ["TextEdit"] = ":notes:",
-    ["Play"] = ":music:",
+    ["Play"] = ":youtube:",
     
     ["Typora"] = ":text:",
     ["Orion"] = ":orion:",
