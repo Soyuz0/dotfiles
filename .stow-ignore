@@ -1,0 +1,32 @@
+# Stow ignore patterns - files/dirs that should not be symlinked
+
+# Git
+^\.git$
+^\.gitignore$
+
+# Cache directories
+^\.ruff_cache$
+
+# Temporary files
+^temp\.py$
+^\.DS_Store$
+^Thumbs\.db$
+
+# Setup and documentation
+^setup$
+^SETUP\.md$
+^README\.md$
+^LICENSE$
+
+# Editor/IDE
+^\.idea$
+^\.vscode$
+^\.swp$
+^\.swo$
+^*~$
+
+# Build artifacts
+^dist$
+^build$
+^__pycache__$
+^\.pytest_cache$

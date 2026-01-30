@@ -1,0 +1,6 @@
+-- Items initialization
+-- Add item definitions here as you customize your bar
+-- Examples:
+-- require("items.apple")
+-- require("items.spaces")
+-- require("items.media")

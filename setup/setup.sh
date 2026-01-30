@@ -1,0 +1,143 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Detect OS
+OS="$(uname -s)"
+case "$OS" in
+Linux*)
+    PACKAGE_MANAGER="apt"
+    INSTALL_CMD="sudo apt install -y"
+    UPDATE_CMD="sudo apt update"
+    ;;
+Darwin*)
+    PACKAGE_MANAGER="brew"
+    INSTALL_CMD="brew install"
+    UPDATE_CMD="brew update"
+    ;;
+*)
+    echo "Unsupported OS: $OS"
+    exit 1
+    ;;
+esac
+
+# Update package list
+$UPDATE_CMD
+
+# Install core dependencies
+$INSTALL_CMD make ripgrep unzip git tmux neovim zsh fzf stow zoxide
+
+# Handle Python and Node installation
+if [ "$PACKAGE_MANAGER" = "apt" ]; then
+    sudo add-apt-repository ppa:neovim-ppa/unstable -y || true
+    sudo apt update
+    sudo apt install -y python3.10-venv npm gcc xclip
+elif [ "$PACKAGE_MANAGER" = "brew" ]; then
+    # Check for Xcode Command Line Tools
+    if ! xcode-select -p &>/dev/null; then
+        echo "Installing Xcode Command Line Tools..."
+        xcode-select --install
+
+        echo "Waiting for Xcode Command Line Tools to be installed..."
+        until xcode-select -p &>/dev/null; do sleep 5; done
+    fi
+
+    echo "Xcode Command Line Tools detected at $(xcode-select -p)"
+
+    brew install python@3.10 node gcc
+fi
+
+# macOS-specific tools
+if [ "$OS" = "Darwin" ]; then
+    echo "Installing macOS-specific tools..."
+    
+    # Window management and status bar
+    $INSTALL_CMD lua
+    
+    # Tap FelixKratz formulae for SketchyBar and Borders
+    echo "Tapping FelixKratz/formulae for SketchyBar and Borders..."
+    brew tap FelixKratz/formulae || true
+    
+    # Install SketchyBar (formula, not cask)
+    echo "Installing SketchyBar..."
+    $INSTALL_CMD sketchybar
+    
+    # Install Borders
+    echo "Installing Borders..."
+    $INSTALL_CMD borders
+    
+    # Install Aerospace
+    echo "Installing Aerospace..."
+    brew install --cask nikitabobko/tap/aerospace
+    
+    # Optional but recommended
+    $INSTALL_CMD wget
+    $INSTALL_CMD jq
+    $INSTALL_CMD switchaudio-osx
+    $INSTALL_CMD nowplaying-cli
+    $INSTALL_CMD thefuck
+    $INSTALL_CMD htop
+    
+    # Fonts - Note: homebrew/cask-fonts is deprecated
+    # Install via direct download or use alternative method
+    echo "Installing fonts..."
+    # SF Mono and SF Pro are included with Xcode Command Line Tools
+    # Installing via manual download is more reliable than casks
+    
+    # SketchyBar app font
+    echo "Downloading SketchyBar app font..."
+    mkdir -p "$HOME/Library/Fonts"
+    curl -L https://github.com/kvndrsslr/sketchybar-app-font/releases/download/v2.0.25/sketchybar-app-font.ttf -o "$HOME/Library/Fonts/sketchybar-app-font.ttf"
+    
+    # SbarLua (enables Lua support for SketchyBar)
+    echo "Building SbarLua for SketchyBar Lua support..."
+    (git clone https://github.com/FelixKratz/SbarLua.git /tmp/SbarLua && cd /tmp/SbarLua/ && make install && rm -rf /tmp/SbarLua/) || true
+fi
+
+# Clone TPM (Tmux Plugin Manager) if not exists
+TPM_DIR="$HOME/.tmux/plugins/tpm"
+if [ ! -d "$TPM_DIR" ]; then
+    echo "Installing Tmux Plugin Manager..."
+    git clone https://github.com/tmux-plugins/tpm "$TPM_DIR"
+else
+    echo "TPM already installed."
+fi
+
+# Set zsh as default shell if not already
+if [ "$SHELL" != "$(which zsh)" ]; then
+    ZSH_PATH="$(which zsh)"
+    if ! grep -q "$ZSH_PATH" /etc/shells; then
+        echo "$ZSH_PATH" | sudo tee -a /etc/shells
+    fi
+    chsh -s "$ZSH_PATH"
+    echo "Zsh set as default shell. You may need to log out and log in again."
+else
+    echo "Zsh is already the default shell."
+fi
+
+# Stow all packages
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$DOTFILES_DIR"
+
+echo "Stowing dotfiles..."
+stow shell       # Symlinks: ~/.zshrc, ~/.p10k.zsh
+stow tools       # Symlinks: ~/.config/nvim, ~/.config/tmux, ~/.config/ghostty, etc.
+stow window-mgmt # Symlinks: ~/.aerospace.toml, ~/.config/sketchybar, ~/.config/borders
+
+echo "Setup complete!"
+
+# macOS: Start services
+if [ "$OS" = "Darwin" ]; then
+    echo "Starting services on macOS..."
+    
+    # Try the formulae tap first, fallback to generic name
+    brew services start felixkratz/formulae/sketchybar || brew services start sketchybar
+    brew services start felixkratz/formulae/borders || brew services start borders
+    
+    echo "SketchyBar and Borders services are now running"
+    echo "Service status:"
+    brew services list | grep -E "sketchybar|borders"
+fi
+
+# Start a new zsh shell
+echo "Starting new zsh shell..."
+exec zsh
