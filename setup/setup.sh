@@ -118,6 +118,7 @@ if [ "$OS" = "Darwin" ]; then
     # Fonts for SketchyBar
     echo "Installing fonts..."
     brew install --cask font-hack-nerd-font
+    brew install --cask font-fira-code-nerd-font
     
     # SketchyBar app font
     echo "Downloading SketchyBar app font..."
@@ -127,6 +128,9 @@ if [ "$OS" = "Darwin" ]; then
     # SbarLua (enables Lua support for SketchyBar)
     echo "Building SbarLua for SketchyBar Lua support..."
     (git clone https://github.com/FelixKratz/SbarLua.git /tmp/SbarLua && cd /tmp/SbarLua/ && make install && rm -rf /tmp/SbarLua/) || true
+    
+    # Build SketchyBar helper binaries (after stow creates the symlinks)
+    echo "Building SketchyBar helper binaries..."
 fi
 
 # Clone TPM (Tmux Plugin Manager) if not exists
@@ -158,6 +162,12 @@ echo "Stowing dotfiles..."
 stow shell       # Symlinks: ~/.zshrc, ~/.p10k.zsh
 stow tools       # Symlinks: ~/.config/nvim, ~/.config/tmux, ~/.config/ghostty, etc.
 stow window-mgmt # Symlinks: ~/.aerospace.toml, ~/.config/sketchybar, ~/.config/borders
+
+# macOS: Build SketchyBar helpers after stow
+if [ "$OS" = "Darwin" ]; then
+    echo "Building SketchyBar helper binaries..."
+    (cd ~/.config/sketchybar/helpers && make) || true
+fi
 
 echo "Setup complete!"
 
