@@ -20,6 +20,15 @@ source $ZSH/oh-my-zsh.sh
 export EDITOR='nvim'
 export MANPAGER='nvim +Man!'
 
+# Add cargo bin to PATH (for grip-grab/gg and other rust tools)
+[[ -d "$HOME/.cargo/bin" ]] && export PATH="$HOME/.cargo/bin:$PATH"
+
+# Add gnu-sed to PATH on macOS (for pymple.nvim)
+[[ -d "/opt/homebrew/opt/gnu-sed/libexec/gnubin" ]] && export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
+
+# Unalias gg from oh-my-zsh git plugin (conflicts with grip-grab binary)
+unalias gg 2>/dev/null || true
+
 # Aliases
 alias vi='nvim'
 alias vim='nvim'

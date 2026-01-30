@@ -24,13 +24,37 @@ esac
 $UPDATE_CMD
 
 # Install core dependencies
-$INSTALL_CMD make ripgrep unzip git tmux neovim zsh fzf stow zoxide
+$INSTALL_CMD make ripgrep unzip git tmux neovim zsh fzf stow zoxide fd eza
+
+# Install Oh-My-Zsh if not exists
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    echo "Installing Oh-My-Zsh..."
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    # Remove the default .zshrc created by oh-my-zsh (we'll stow our own)
+    rm -f "$HOME/.zshrc"
+else
+    echo "Oh-My-Zsh already installed."
+fi
+
+# Install Powerlevel10k theme for Oh-My-Zsh
+P10K_DIR="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
+if [ ! -d "$P10K_DIR" ]; then
+    echo "Installing Powerlevel10k theme..."
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$P10K_DIR"
+else
+    echo "Powerlevel10k already installed."
+fi
 
 # Handle Python and Node installation
 if [ "$PACKAGE_MANAGER" = "apt" ]; then
     sudo add-apt-repository ppa:neovim-ppa/unstable -y || true
     sudo apt update
-    sudo apt install -y python3.10-venv npm gcc xclip
+    sudo apt install -y python3.10-venv npm gcc xclip cargo
+    
+    # Install grip-grab (gg) via cargo for pymple.nvim
+    echo "Installing grip-grab (gg) for pymple.nvim..."
+    cargo install grip-grab || true
+    
 elif [ "$PACKAGE_MANAGER" = "brew" ]; then
     # Check for Xcode Command Line Tools
     if ! xcode-select -p &>/dev/null; then
@@ -44,6 +68,20 @@ elif [ "$PACKAGE_MANAGER" = "brew" ]; then
     echo "Xcode Command Line Tools detected at $(xcode-select -p)"
 
     brew install python@3.10 node gcc
+    
+    # Install gnu-sed (required by pymple.nvim)
+    echo "Installing gnu-sed..."
+    brew install gnu-sed
+    
+    # Install rust and grip-grab (gg) for pymple.nvim
+    echo "Installing rust and grip-grab (gg) for pymple.nvim..."
+    brew install rust
+    cargo install grip-grab || true
+fi
+
+# Add cargo bin to PATH for current session if it exists
+if [ -d "$HOME/.cargo/bin" ]; then
+    export PATH="$HOME/.cargo/bin:$PATH"
 fi
 
 # macOS-specific tools
