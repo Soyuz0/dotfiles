@@ -9,55 +9,60 @@ sbar.exec(
 
 local popup_width = 250
 
-local wifi_up = sbar.add("item", "widgets.wifi1", {
-    position = "right",
-    padding_left = -5,
-    width = 0,
-    icon = {
-        padding_right = 0,
-        font = {
-            style = settings.font.style_map["Bold"],
-            size = 9.0
-        },
-        string = icons.wifi.upload
-    },
-    label = {
-        font = {
-            family = settings.font.numbers,
-            style = settings.font.style_map["Bold"],
-            size = 9.0
-        },
-        color = colors.red,
-        string = "??? Bps"
-    },
-    y_offset = 4
-})
-
 local wifi_down = sbar.add("item", "widgets.wifi2", {
     position = "right",
-    padding_left = -5,
+    padding_left = 0,
     icon = {
         padding_right = 0,
+        padding_left = 0,
         font = {
             style = settings.font.style_map["Bold"],
-            size = 9.0
+            size = 13.0
         },
-        string = icons.wifi.download
+        string = icons.wifi.download,
+        color = colors.blue
     },
     label = {
         font = {
             family = settings.font.numbers,
             style = settings.font.style_map["Bold"],
-            size = 9.0
+            size = 13.0
         },
         color = colors.blue,
-        string = "??? Bps"
+        string = "???KB",
+        padding_right = 2
+    }
+})
+
+local wifi_up = sbar.add("item", "widgets.wifi1", {
+    position = "right",
+    padding_left = 0,
+    icon = {
+        padding_right = 0,
+        padding_left = 0,
+        font = {
+            style = settings.font.style_map["Bold"],
+            size = 13.0
+        },
+        string = icons.wifi.upload,
+        color = colors.red
     },
-    y_offset = -4
+    label = {
+        font = {
+            family = settings.font.numbers,
+            style = settings.font.style_map["Bold"],
+            size = 13.0
+        },
+        color = colors.red,
+        string = "???KB"
+    }
 })
 
 local wifi = sbar.add("item", "widgets.wifi.padding", {
     position = "right",
+    icon = {
+        drawing = false
+    },
     label = {
         drawing = false
     }
