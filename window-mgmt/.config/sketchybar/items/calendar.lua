@@ -1,5 +1,6 @@
 local settings = require("settings")
 local colors = require("colors")
+local icons = require("icons")
 
 -- Padding item required because of bracket
 sbar.add("item", {
@@ -52,7 +53,7 @@ sbar.add("item", {
 
 cal:subscribe({"forced", "routine", "system_woke"}, function(env)
     cal:set({
-        icon = "",
+        icon = icons.calendar,
         label = os.date("%m/%d %H:%M")
     })
 end)
