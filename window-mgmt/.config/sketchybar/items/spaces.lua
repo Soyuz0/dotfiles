@@ -5,7 +5,8 @@ local app_icons = require("helpers.app_icons")
 
 local spaces = {}
 
-local workspaces = get_workspaces()
+-- Define workspaces in your preferred order
+local workspaces = {"Z", "T", "B", "C", "P", "M", "N", "R", "E"}
 local current_workspace = get_current_workspace()
 local function split(str, sep)
     local result = {}
