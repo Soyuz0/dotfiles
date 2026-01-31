@@ -1,3 +1,5 @@
 theme = Catppuccin Mocha
-background-opacity = 0.80
+background-opacity = 0.90
+background-opacity-cells = true
+unfocused-split-opacity = 0.90
 confirm-close-surface = false
