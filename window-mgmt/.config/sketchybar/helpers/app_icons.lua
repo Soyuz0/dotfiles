@@ -71,6 +71,7 @@ return {
     ["Music"] = ":music:",
     ["音乐"] = ":music:",
     ["Plexamp"] = ":music:",
+    ["Overcast"] = ":overcast:",
     ["League of Legends"] = ":league_of_legends:",
     ["Tor Browser"] = ":tor_browser:",
     ["Hyper"] = ":hyper:",
